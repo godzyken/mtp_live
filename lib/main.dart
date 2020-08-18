@@ -1,6 +1,14 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 
+FirebaseAnalytics analytics;
+
 void main() {
+  analytics = FirebaseAnalytics();
+  Crashlytics.instance.enableInDevMode = true; // turn this off after seeing reports in in the console.
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
   runApp(MyApp());
 }
 
@@ -51,6 +59,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  _perfTrace() async {
+    Trace trace = FirebasePerformance.instance.newTrace('cool_trace');
+    trace.start();
+    await Future.delayed(Duration(seconds: 5));
+    trace.stop();
+  }
 
   void _incrementCounter() {
     setState(() {

@@ -31,10 +31,11 @@ dependencies:
   connectivity: ^0.4.9
   connectivity_for_web: ^0.3.1
   firebase: ^7.3.0
-  firebase_auth: ^0.16.1
-  firebase_core: ^0.4.4+2
-  firebase_core_dart: ^0.0.1
-  firebase_core_web: ^0.1.1+2
+  firebase_auth: ^0.18.0
+  firebase_analytics: ^6.0.0
+  firebase_crashlytics:
+  firebase_performance: ^0.4.0
+  firebase_core: ^0.5.0
   googleapis: ^0.55.0
   googleapis_auth: ^0.2.12
   google_sign_in: ^4.5.1
@@ -46,6 +47,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+  firebase_auth_platform_interface: ^2.0.0
+  firebase_auth_web: ^0.3.0
+  firebase_core_platform_interface: ^2.0.0
+  firebase_core_web: ^0.2.0
 
 # The following section is specific to Flutter.
 flutter:
