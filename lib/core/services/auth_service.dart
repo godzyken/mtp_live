@@ -1,26 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 
 class AuthService {
   Future<void> linkGoogleAndTwitter() async {
     // Trigger the Google Authentication flow.
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request.
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+//    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+//    // Obtain the auth details from the request.
+//    final GoogleSignInAuthentication googleAuth =
+//        await googleUser.authentication;
+    String accessToken;
+    String idToken;
+
     // Create a new credential.
-    final GoogleAuthCredential googleCredential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+
+    final GoogleAuthCredential googleCredential = GoogleAuthProvider.credential(accessToken: accessToken, idToken: idToken );
     // Sign in to Firebase with the Google [UserCredential].
     final UserCredential googleUserCredential =
         await FirebaseAuth.instance.signInWithCredential(googleCredential);
+    if (googleUserCredential != null) {
+      var user = googleUserCredential.user;
+      print('ok dem !! $googleUserCredential');
+      return user;
+    }
+
+
 
     // Now let's link Twitter to the currently signed in account.
     // Create a [TwitterLogin] instance.
-//    final TwitterLogin twitterLogin = new TwitterLogin(
+//    final TwitterLogin twitterLogin = new TwitteérLogin(
 //        consumerKey: consumerKey, consumerSecret: consumerSecret);
 //    // Trigger the sign-in flow.
 //    final TwitterLoginResult loginResult = await twitterLogin.authorize();
