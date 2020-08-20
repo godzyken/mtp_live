@@ -5,8 +5,20 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <activity
-        android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
-        tools:replace="android:launchMode"
-        android:launchMode="standard" />
+    <application
+        android:name="io.flutter.app.FlutterApplication"
+        android:label="mtp_live"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup=""
+        android:multiArch="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="p"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:fullBackupContent="">
+        <activity
+            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+            tools:replace="android:launchMode"
+            android:launchMode="standard" />
+    </application>
+
 </manifest>
