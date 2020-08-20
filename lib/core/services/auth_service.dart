@@ -20,17 +20,18 @@ class AuthService {
 
     // Now let's link Twitter to the currently signed in account.
     // Create a [TwitterLogin] instance.
-    final TwitterLogin twitterLogin = new TwitterLogin(
-        consumerKey: consumerKey, consumerSecret: consumerSecret);
-    // Trigger the sign-in flow.
-    final TwitterLoginResult loginResult = await twitterLogin.authorize();
-    // Get the logged in session.
-    final TwitterSession twitterSession = loginResult.session;
-    // Create a [AuthCredential] from the access token.
-    final AuthCredential twitterAuthCredential = TwitterAuthProvider.credential(
-        accessToken: twitterSession.token, secret: twitterSession.secret);
-    // Link the Twitter account to the Google account.
-    await googleUserCredential.user.linkWithCredential(twitterAuthCredential);
+//    final TwitterLogin twitterLogin = new TwitterLogin(
+//        consumerKey: consumerKey, consumerSecret: consumerSecret);
+//    // Trigger the sign-in flow.
+//    final TwitterLoginResult loginResult = await twitterLogin.authorize();
+//    // Get the logged in session.
+//    final TwitterSession twitterSession = loginResult.session;
+//    // Create a [AuthCredential] from the access token.
+//    final AuthCredential twitterAuthCredential = TwitterAuthProvider.credential(
+//        accessToken: twitterSession.token, secret: twitterSession.secret);
+//    // Link the Twitter account to the Google account.
+//    await googleUserCredential.user.linkWithCredential(twitterAuthCredential);
+    return googleUserCredential.user;
   }
 
   Future<void> authenticationState() async {
@@ -54,7 +55,8 @@ class AuthService {
   }
 
   Future<void> signinCredential() async {
-    UserCredential userCredential = await Firebase.auth.signInAnonymously();
+    FirebaseAuth auth =  FirebaseAuth.instance;
+    UserCredential userCredential = await auth.signInAnonymously();
     if (userCredential != null) {
       print(userCredential.user.uid);
       return userCredential.user.uid;
