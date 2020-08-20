@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mtp_live/core/app.dart';
 import 'package:mtp_live/core/services/sign_in.dart';
+import 'package:mtp_live/core/models/user.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -16,7 +17,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  FirebaseUser user;
+  User user;
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _BodyState extends State<Body> {
 
   void click() {
     signInWithGoogle().then((user) => {
-      this.user = user,
+      this.user = user as User,
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => MtpLive()))
     });

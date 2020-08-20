@@ -1,6 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:mtp_live/core/models/user.dart';
-
 import '../services/database.dart';
 
 

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:mtp_live/core/models/post.dart';
 
 
+
 class PostList extends StatefulWidget {
   final List<Post> listItems;
-  final User user;
+  final FirebaseAuth auth;
+  User  get user => auth.currentUser;
 
-  PostList(this.listItems, this.user);
+  PostList(this.listItems, this.auth);
 
   @override
   _PostListState createState() => _PostListState();
