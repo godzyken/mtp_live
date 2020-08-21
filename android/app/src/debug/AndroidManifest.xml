@@ -13,6 +13,7 @@
         android:multiArch="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="p"
+        tools:replace="android:fullBackupContent"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:fullBackupContent="">
         <activity

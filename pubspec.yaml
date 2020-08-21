@@ -43,6 +43,7 @@ dependencies:
   googleapis_auth: ^0.2.12
   google_sign_in: ^4.5.1
   dart_twitter_api: ^0.3.4
+  rxdart: ^0.24.1
 
 
 dev_dependencies:
@@ -69,7 +70,7 @@ transitive dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  test_api: ^0.2.18
+  test_api: ^0.2.17
 
 # The following section is specific to Flutter.
 flutter:

@@ -1,7 +1,65 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mtp_live/core/models/user.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 class AuthService {
+  final GoogleSignin _googleSignin = GoogleSignIn();
+  final _auth = auth.FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Observable<auth.User> user;
+  Observable<Map<String, dynamic>> profile;
+  PublishSubject loading = PublishSubject();
+
+  AuthService() {
+    user = Observable(_auth.authStateChanges());
+
+    profile = user.switchMap((auth.User u) {
+      if (u != null) {
+        return _db.collection('users').doc(u.uid).snapshots().map((snap) => snap.data);
+      } else {
+        return Observable.just({});
+      }
+    });
+  }
+
+  Future<auth.User> googleSignIn() async {
+    loading.add(true);
+    GoogleSignInAccount googleUser = await _googleSignin.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    auth.User user = await _auth.signInWithGoogle(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken
+    );
+
+    updateUserData(user);
+    print('signed in ' + user.displayName);
+
+    loading.add(false);
+    return user;
+
+  }
+
+  void updateUserData(auth.User user) async {
+    DocumentReference ref = _db.collection('users').doc(user.uid);
+
+    return ref.set({
+      'uid': user.uid,
+      'email': user.email,
+      'photoURL': user.photoURL,
+      'displayName': user.displayName,
+      'lastSeen': DateTime.now()
+    },);
+  }
+
+  void signOut() {
+    _auth.signOut();
+  }
+
   Future<void> linkGoogleAndTwitter() async {
     // Trigger the Google Authentication flow.
 //    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -136,7 +194,10 @@ class AuthService {
     }
   }
 
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
+//  Future<void> signOut() async {
+//    await FirebaseAuth.instance.signOut();
+//  }
+
 }
+
+final AuthService authService = AuthService();
