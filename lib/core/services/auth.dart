@@ -1,6 +1,4 @@
-import 'package:firebase/firebase.dart';
-import 'package:firebase_auth/firebase_auth.dart'as auth;
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
 
 class User {
@@ -48,16 +46,6 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<String> updateUser(String name) async {
-    final user = auth.FirebaseAuth.instance.currentUser;
-    var userUpdateInfo = user.updateProfile(displayName: user.displayName, photoURL: user.photoURL);
-    user = userUpdateInfo.
-    await user.updateProfile();
-    await user.reload();
-    return user.uid;
-  }
-
-  @override
   Future<User> currentUser() async {
     final user = _firebaseAuth.currentUser;
     return _userFromFirebase(user);
@@ -70,27 +58,27 @@ class Auth implements AuthBase {
     return _userFromFirebase(authResult.user);
   }
 
-
   Future<User> signInGoogle() async {
     final googleSignIn = GoogleSignIn();
     final account = await googleSignIn.signIn();
     if (account != null) {
-      GoogleSignInAuthentication googleSignInAuthentication  =
+      GoogleSignInAuthentication googleSignInAuthentication =
           await account.authentication;
       if (googleSignInAuthentication.accessToken != null &&
           googleSignInAuthentication.idToken != null) {
-        final result = await _firebaseAuth.signInWithCredential(
-          GoogleAuthProvider.getCredential(
-              idToken: googleSignInAuthentication.idToken,
-              accessToken: googleSignInAuthentication.accessToken),
+        final auth.UserCredential result =
+            await _firebaseAuth.signInWithCredential(
+          auth.GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken,
+          ),
         );
         return _userFromFirebase(result.user);
       }
+
     }
+    return null;
   }
-
-
-  
 
   @override
   Future<void> signOut() async {
@@ -104,5 +92,11 @@ class Auth implements AuthBase {
     final authResult = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     return _userFromFirebase(authResult.user);
+  }
+
+  @override
+  Future<User> updateUser(String name) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
   }
 }

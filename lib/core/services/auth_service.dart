@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/rxdart.dart';
@@ -37,55 +36,6 @@ class AuthService {
         return Stream.value({});
       }
     });
-  }
-
-
-  Future<auth.User> googleSignIn() async {
-    loading.add(true);
-    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-    final OAuthCredential credential = GoogleAuthProvider.credential(
-      googleAuth.accessToken,
-      googleAuth.idToken,
-    );
-
-    var provider = auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    provider.setCustomParameters({
-      'login_hint': 'user@example.com'
-    });
-
-//    auth.FirebaseAuth.languageCode = 'pt';
-// To apply the default browser preference instead of explicitly setting it.
-// firebase.auth().useDeviceLanguage();
-
-
-    final  auth.UserCredential result = await _auth.signInWithCredential(credential);
-
-    _auth.signInWithPopup(provider).then((result) => {
-        var token = {result.credential.accessToken, result.credential.idToken};
-        var user = result.user;
-    }).catchError((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-    });
-
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final auth.User currentUser = _auth.currentUser;
-    assert(currentUser.uid == user.uid);
-
-    updateUserData(user);
-    print('signed in ' + user.displayName);
-
-    loading.add(false);
-    return user;
   }
 
 //  Future<String> signInWithGoogle() async {

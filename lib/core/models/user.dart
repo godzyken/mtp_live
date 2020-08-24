@@ -37,4 +37,5 @@ class Profile {
       email: data['email'] ?? ''
     );
   }
+
 }

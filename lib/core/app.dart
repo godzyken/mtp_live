@@ -1,7 +1,9 @@
+import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mtp_live/core/models/post.dart';
+import 'package:mtp_live/core/services/database.dart';
 import 'package:mtp_live/ui/auth/login_page.dart';
 import 'package:mtp_live/ui/screen/first_screen.dart';
 import 'package:mtp_live/ui/screen/postList.dart';
@@ -46,8 +48,15 @@ class _MtpLiveState extends State<MtpLive> {
   List<Post> posts = [];
 
   void newPost(String text) {
-    var post = new Post(text, widget.user.displayName);
-    post.setId(savePost(post));
+    Post post = new Post(text, widget.user.displayName);
+    if (post != null) {
+      var sendPost = savePost(post.toJson());
+      if (sendPost != null) {
+        final DataSnapshot snap = databaseReference.push().reference('post/').once() as DataSnapshot;
+        return null;
+      }
+      return null;
+    }
     this.setState(() {
       posts.add(post);
     });
