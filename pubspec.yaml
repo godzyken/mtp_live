@@ -41,9 +41,10 @@ dependencies:
   cloud_firestore_web: ^0.2.0+1
   googleapis: ^0.55.0
   googleapis_auth: ^0.2.12
-  google_sign_in: ^4.5.1
+  google_sign_in: ^4.5.3
   dart_twitter_api: ^0.3.4
   rxdart: ^0.24.1
+
 
 
 dev_dependencies:

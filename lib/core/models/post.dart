@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import '../services/database.dart';
 
+import '../services/database.dart';
 
 class Post {
   String body;
@@ -35,6 +35,11 @@ class Post {
       'body': this.body
     };
   }
+
+  void updatePost(Post post, DatabaseReference id) {
+    Post post = Post(this, this._id);
+    post._id = _id;
+  }
 }
 
 Post createPost(record) {
@@ -49,4 +54,27 @@ Post createPost(record) {
   Post post = new Post(attributes['body'], attributes['author']);
   post.usersLiked = new Set.from(attributes['usersLiked']);
   return post;
+}
+
+Post savePost(record)  {
+  Map<String, dynamic> attributes = {
+    'author': '',
+    'usersLiked': [],
+    'body': ''
+  };
+
+  record.forEach((key, value) => {attributes[key] = value});
+
+  try {
+    Post post = new Post(attributes['body'], attributes['author']);
+
+    if (post != null) {
+      post._id = new DatabaseService().savePost(post);
+      return post;
+    }
+  } catch (e, s) {
+    print(s);
+  }
+
+  return record;
 }

@@ -3,10 +3,15 @@ import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:mtp_live/core/services/sign_in.dart';
 
 class AuthService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+
+    ]
+  );
   final _auth = auth.FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -14,12 +19,12 @@ class AuthService {
   String email;
   String imageUrl;
 
-  Observable<auth.User> user;
-  Observable<Map<String, dynamic>> profile;
+  Stream<auth.User> user;
+  Stream<Map<String, dynamic>> profile;
   PublishSubject loading = PublishSubject();
 
   AuthService() {
-    user = Observable(_auth.authStateChanges());
+    user = user.asBroadcastStream();
 
     profile = user.switchMap((auth.User u) {
       if (u != null) {
@@ -27,12 +32,13 @@ class AuthService {
             .collection('users')
             .doc(u.uid)
             .snapshots()
-            .map((snap) => snap.data);
+            .map((snap) => snap.data());
       } else {
-        return Observable.just({});
+        return Stream.value({});
       }
     });
   }
+
 
   Future<auth.User> googleSignIn() async {
     loading.add(true);
@@ -55,7 +61,7 @@ class AuthService {
 // firebase.auth().useDeviceLanguage();
 
 
-//    final  auth.UserCredential authResult = await _auth.signInWithCredential(credential);
+    final  auth.UserCredential result = await _auth.signInWithCredential(credential);
 
     _auth.signInWithPopup(provider).then((result) => {
         var token = {result.credential.accessToken, result.credential.idToken};
