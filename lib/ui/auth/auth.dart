@@ -14,8 +14,8 @@ class _UserProfileState extends State<UserProfile> {
   initState() {
     super.initState();
 
-    authService.profile.listen((event) {_profile.values.contains(authService.user);});
-    authService.loading.listen((state) => setState(() => _loading = state));
+//    authService.profile.listen((event) {_profile.values.contains(authService.user);});
+//    authService.loading.listen((state) => setState(() => _loading = state));
   }
 
   @override

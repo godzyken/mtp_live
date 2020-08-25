@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart' as db;
+import 'package:cloud_firestore/cloud_firestore.dart' as db;
 
 import '../services/database.dart';
 
@@ -7,7 +7,7 @@ class Post {
   String body;
   String author;
   Set usersLiked = {};
-  db.DatabaseReference _id;
+  db.CollectionReference _id;
 
   Post(this.body, this.author);
 
@@ -24,7 +24,7 @@ class Post {
     updatePost(this, this._id);
   }
 
-  void setId(db.DatabaseReference id) {
+  void setId(db.CollectionReference id) {
     this._id = id;
   }
 
@@ -36,7 +36,7 @@ class Post {
     };
   }
 
-  void updatePost(Post post, db.DatabaseReference id) {
+  void updatePost(Post post, db.CollectionReference id) {
     Post post = Post(body, author);
     post._id = _id;
   }
@@ -69,7 +69,7 @@ Post savePost(record)  {
     Post post = new Post(attributes['body'], attributes['author']);
 
     if (post != null) {
-      post._id = new DatabaseService().savePost(post);
+//      post._id = new DatabaseService().savePost(post);
       return post;
     }
   } catch (e, s) {

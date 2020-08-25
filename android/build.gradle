@@ -1,5 +1,5 @@
 ext {
-    lifecycleProcessVersion = '2.3.0-alpha06'
+    lifecycleProcessVersion = '2.3.0-alpha07'
 }
 buildscript {
     ext.kotlin_version = '1.4.0'

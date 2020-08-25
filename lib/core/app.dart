@@ -1,9 +1,7 @@
-import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mtp_live/core/models/post.dart';
-import 'package:mtp_live/core/services/database.dart';
 import 'package:mtp_live/ui/auth/login_page.dart';
 import 'package:mtp_live/ui/screen/first_screen.dart';
 import 'package:mtp_live/ui/screen/postList.dart';
@@ -52,8 +50,8 @@ class _MtpLiveState extends State<MtpLive> {
     if (post != null) {
       var sendPost = savePost(post.toJson());
       if (sendPost != null) {
-        final DataSnapshot snap = databaseReference.push().reference('post/').once() as DataSnapshot;
-        return null;
+//        final DataSnapshot snap = databaseReference.push().reference('post/').once() as DataSnapshot;
+        return print('good !!!');
       }
       return null;
     }
@@ -62,18 +60,18 @@ class _MtpLiveState extends State<MtpLive> {
     });
   }
 
-  void updatePosts() {
-    getAllPosts().then((posts) => {
-          this.setState(() {
-            this.posts = posts;
-          })
-        });
-  }
+//  void updatePosts() {
+//    getAllPosts().then((posts) => {
+//          this.setState(() {
+//            this.posts = posts;
+//          })
+//        });
+//  }
 
   @override
   void initState() {
     super.initState();
-    updatePosts();
+//    updatePosts();
   }
 
   @override

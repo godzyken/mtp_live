@@ -9,13 +9,12 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="mtp_live"
         android:icon="@mipmap/ic_launcher"
-        android:allowBackup=""
+        android:allowBackup="true"
         android:multiArch="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="p"
-        tools:replace="android:fullBackupContent"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-        android:fullBackupContent="">
+        android:fullBackupContent="true">
         <activity
             android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
             tools:replace="android:launchMode"

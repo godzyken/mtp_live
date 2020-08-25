@@ -28,8 +28,9 @@ abstract class AuthBase {
 
 class Auth implements AuthBase {
   final _firebaseAuth = auth.FirebaseAuth.instance;
+  Stream<auth.User> user;
 
-  User _userFromFirebase(auth.User user) {
+  User _userFromFirebase(user) {
     if (user == null) {
       return null;
     }
@@ -100,3 +101,5 @@ class Auth implements AuthBase {
     throw UnimplementedError();
   }
 }
+
+final Auth authService = Auth();
