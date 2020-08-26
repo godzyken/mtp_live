@@ -28,6 +28,9 @@ abstract class AuthBase {
 
 class Auth implements AuthBase {
   final _firebaseAuth = auth.FirebaseAuth.instance;
+  String name;
+  String email;
+  String imageUrl;
   Stream<auth.User> user;
 
   User _userFromFirebase(user) {
@@ -74,6 +77,26 @@ class Auth implements AuthBase {
             idToken: googleSignInAuthentication.idToken,
           ),
         );
+        final auth.User user = result.user;
+        // Checking if email and name is null
+        assert(user.email != null);
+        assert(user.displayName != null);
+        assert(user.photoURL != null);
+
+        name = user.displayName;
+        email = user.email;
+        imageUrl = user.photoURL;
+
+        if (name.contains(" ")) {
+          name = name.substring(0, name.indexOf(" "));
+        }
+
+        assert(!user.isAnonymous);
+        assert(await user.getIdToken() != null);
+
+        final auth.User currentUser = _firebaseAuth.currentUser;
+        assert(currentUser.uid == user.uid);
+
         return _userFromFirebase(result.user);
       }
 
@@ -94,6 +117,8 @@ class Auth implements AuthBase {
         email: email, password: password);
     return _userFromFirebase(authResult.user);
   }
+
+
 
   @override
   Future<User> updateUser(String name) {

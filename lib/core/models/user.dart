@@ -8,16 +8,16 @@ final _doc = db.FirebaseFirestore.instance;
 
 
 class User {
-  User({this.uid, this.diplayName, this.email, this.photoUrl});
+  User({this.uid, this.displayName, this.email, this.photoUrl});
 
   final int uid;
-  final String diplayName;
+  final String displayName;
   final String email;
   final String photoUrl;
 
   factory User.fromMap(Map data) {
     return User(
-      diplayName: data['displayName'] ?? '',
+      displayName: data['displayName'] ?? '',
       uid : data['uid'] ?? '',
       email: data['email'] ?? '',
       photoUrl: data['photoUrl'] ?? '',
@@ -31,7 +31,7 @@ class User {
     return User(
         uid: user.uid,
         photoUrl: user.photoURL,
-        diplayName: user.displayName,
+        displayName: user.displayName,
         email: user.email);
   }
 
