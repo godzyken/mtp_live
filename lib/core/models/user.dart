@@ -10,7 +10,7 @@ final _doc = db.FirebaseFirestore.instance;
 class User {
   User({this.uid, this.displayName, this.email, this.photoUrl});
 
-  final int uid;
+  final String uid;
   final String displayName;
   final String email;
   final String photoUrl;
@@ -48,10 +48,22 @@ class User {
 class Profile {
   User user = User();
   final String idProfile;
-  final String displayName;
+  final String firstName;
+  final String lastName;
+  final String country;
+  final String city;
   final String email;
+  final String photoURL;
 
-  Profile({this.idProfile, this.displayName, this.email});
+  Profile({
+    this.idProfile,
+    this.firstName,
+    this.lastName,
+    this.country,
+    this.city,
+    this.email,
+    this.photoURL,
+  });
 
   factory Profile.fromFirestore(_doc) {
 
@@ -59,7 +71,11 @@ class Profile {
 
     return Profile(
       idProfile: _doc.id,
-      displayName: data['displayName'] ?? '',
+      firstName: data['firstName'] ?? '',
+      lastName: data['lastName'] ?? '',
+      city: data['city'] ?? '',
+      country: data['country'] ?? '',
+      photoURL: data['photoURL'] ?? '',
       email: data['email'] ?? ''
     );
   }

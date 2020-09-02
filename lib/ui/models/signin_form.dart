@@ -31,7 +31,7 @@ class _SignFormState extends State<SignForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-//      child: Column(
+     child: Column(
 //        children: [
 //          buildEmailFormField(),
 ////          SizedBox(height: getProportionateScreenHeight(30)),
@@ -74,7 +74,7 @@ class _SignFormState extends State<SignForm> {
 //            },
 //          ),
 //        ],
-//      ),
+     ),
     );
   }
 

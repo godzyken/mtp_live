@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mtp_live/core/app.dart';
+import 'package:mtp_live/core/models/user.dart';
 import 'package:mtp_live/core/services/auth.dart';
 import 'package:mtp_live/ui/screen/model.dart';
 
 class LoginScreen extends BaseModel {
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(home: Scaffold(
         appBar: AppBar(title: Text('Hello World!')),

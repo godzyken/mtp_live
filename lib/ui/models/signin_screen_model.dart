@@ -5,7 +5,7 @@ class SigninScreenModel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-//      child: SizedBox(
+     child: SizedBox(
 //        width: double.infinity,
 //        child: Padding(
 //          padding:
@@ -52,7 +52,7 @@ class SigninScreenModel extends StatelessWidget {
 //            ),
 //          ),
 //        ),
-//      ),
+     ),
     );
   }
 }

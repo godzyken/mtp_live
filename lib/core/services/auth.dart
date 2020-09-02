@@ -1,14 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mtp_live/core/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class User {
-  User({this.uid, this.diplayName, this.email, this.photoUrl});
-
-  final String uid;
-  final String diplayName;
-  final String email;
-  final String photoUrl;
-}
+String uid;
+String name;
+String email;
+String imageUrl;
+Stream<auth.User> user;
 
 abstract class AuthBase {
   Stream<User> get onAuthChanged;
@@ -19,19 +18,18 @@ abstract class AuthBase {
 
   Future<User> currentUser();
 
-  Future<User> updateUser(String name);
+  Future<User> updateUser(String displayName, String photoURL);
+
+  Future<void> signInGoogle();
 
   Future<void> signOut();
 
-  Future<void> signInGoogle();
+  Future<bool> saveData();
 }
 
 class Auth implements AuthBase {
   final _firebaseAuth = auth.FirebaseAuth.instance;
-  String name;
-  String email;
-  String imageUrl;
-  Stream<auth.User> user;
+
 
   User _userFromFirebase(user) {
     if (user == null) {
@@ -40,7 +38,7 @@ class Auth implements AuthBase {
     return User(
         uid: user.uid,
         photoUrl: user.photoURL,
-        diplayName: user.displayName,
+        displayName: user.displayName,
         email: user.email);
   }
 
@@ -55,15 +53,35 @@ class Auth implements AuthBase {
     return _userFromFirebase(user);
   }
 
-  Future<User> createUserWithEmailAndPassword(
-      String email, String password) async {
+  @override
+  Future<User> createUserWithEmailAndPassword(String email, String password) async {
     final authResult = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     return _userFromFirebase(authResult.user);
   }
 
+  @override
+  Future<User> signInWithEmailAndPassword(String email, String password) async {
+    final authResult = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return _userFromFirebase(authResult.user);
+  }
+
+  @override
+  Future<User> updateUser(String displayName, String photoURL) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
+  }
+
+  @override
   Future<User> signInGoogle() async {
-    final googleSignIn = GoogleSignIn();
+    final googleSignIn = GoogleSignIn(
+      scopes: [
+        'profile',
+        'email',
+        'openid',
+      ]
+    );
     final account = await googleSignIn.signIn();
     if (account != null) {
       GoogleSignInAuthentication googleSignInAuthentication =
@@ -77,12 +95,15 @@ class Auth implements AuthBase {
             idToken: googleSignInAuthentication.idToken,
           ),
         );
-        final auth.User user = result.user;
+        final user = result.user;
         // Checking if email and name is null
+
+        assert(user.uid != null);
         assert(user.email != null);
         assert(user.displayName != null);
         assert(user.photoURL != null);
 
+        uid = user.uid;
         name = user.displayName;
         email = user.email;
         imageUrl = user.photoURL;
@@ -97,6 +118,9 @@ class Auth implements AuthBase {
         final auth.User currentUser = _firebaseAuth.currentUser;
         assert(currentUser.uid == user.uid);
 
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('auth', true);
+
         return _userFromFirebase(result.user);
       }
 
@@ -109,22 +133,24 @@ class Auth implements AuthBase {
     final gsignin = GoogleSignIn();
     await gsignin.signOut();
     await _firebaseAuth.signOut();
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool('auth', false);
+
+    uid = null;
+    name = null;
+    email = null;
+    imageUrl = null;
+
+    print("User signed out of Google account");
   }
 
   @override
-  Future<User> signInWithEmailAndPassword(String email, String password) async {
-    final authResult = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
-    return _userFromFirebase(authResult.user);
+  Future<bool> saveData() async {
+    await Future.delayed(Duration(seconds: 2));
+    return true;
   }
 
-
-
-  @override
-  Future<User> updateUser(String name) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
-  }
 }
 
 final Auth authService = Auth();

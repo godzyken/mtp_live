@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mtp_live/core/services/auth.dart';
+import 'package:mtp_live/core/models/user.dart';
 
 class UserProfile extends StatefulWidget {
   final User user;
