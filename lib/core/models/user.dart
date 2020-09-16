@@ -1,52 +1,38 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart' as db;
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-
-
-final _firebaseAuth = auth.FirebaseAuth.instance;
-final _doc = db.FirebaseFirestore.instance;
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
-  User({this.uid, this.displayName, this.email, this.photoUrl});
-
-  final String uid;
   final String displayName;
   final String email;
-  final String photoUrl;
+  final String photoURL;
+  final String uid;
+  final DocumentReference reference;
 
-  factory User.fromMap(Map data) {
-    return User(
-      displayName: data['displayName'] ?? '',
-      uid : data['uid'] ?? '',
-      email: data['email'] ?? '',
-      photoUrl: data['photoUrl'] ?? '',
-    );
-  }
+  User.initial(this.reference)
+      : uid = '',
+        displayName = '',
+        email = '',
+        photoURL = '';
 
-  User _userFromFirebase(user) {
-    if (user == null) {
-      return null;
-    }
-    return User(
-        uid: user.uid,
-        photoUrl: user.photoURL,
-        displayName: user.displayName,
-        email: user.email);
-  }
+  User.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['displayName'] != null),
+        assert(map['email'] != null),
+        assert(map['uid']),
+        assert(map['photoURL']),
+        displayName = map['displayName'],
+        email = map['email'],
+        photoURL = map['photoURL'],
+        uid = map['uid'];
 
-  Stream<User> get onAuthChanged {
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
-  }
+  User.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
-//  Stream<db> get onAuthDocChanged {
-//    return ;
-//  }
-
+  @override
+  String toString() => "User<$displayName:$email:$photoURL:$uid>";
 }
 
+
 class Profile {
-  User user = User();
+  User user;
   final String idProfile;
   final String firstName;
   final String lastName;

@@ -1,7 +1,9 @@
 import 'package:mtp_live/ui/models/base_model.dart';
+import 'package:scoped/scoped.dart';
 
 import '../../service_locator.dart';
 
+/*
 class BaseView<T extends Scope> extends StatefulWidget {
   final Scope _builder;
   final Function(T) onModelReady;
@@ -33,3 +35,4 @@ class _BaseViewState<T extends Scope> extends State<BaseView<T>> {
             builder: widget._builder));
   }
 }
+*/

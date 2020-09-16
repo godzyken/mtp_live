@@ -29,7 +29,7 @@ class _BodyState extends State<Body> {
     authService.signInGoogle().then((user) => {
       this.user = user,
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MtpLive()))
+          MaterialPageRoute(builder: (context) => MyHomePage()))
     });
   }
 

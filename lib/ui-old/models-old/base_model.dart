@@ -1,10 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:mtp_live/core/constants/view_state.dart';
-import 'package:scoped/scoped.dart';
 
 export 'package:mtp_live/core/constants/view_state.dart';
-export 'package:scoped/scoped.dart';
 
-class BaseModel extends Scope {
+class BaseModel extends ChangeNotifier {
   ViewState _state;
   ViewState get state => _state;
 

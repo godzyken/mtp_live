@@ -1,0 +1,46 @@
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:mtp_live/core/models/post.dart';
+import 'package:mtp_live/core/services/database.dart';
+import 'package:provider/provider.dart';
+
+class PostListItem extends StatelessWidget {
+  final Post post;
+  final Function onTap;
+  final User user;
+  const PostListItem({this.post, this.onTap, this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    final database = Provider.of<DatabaseService>(context, listen: false);
+    return StreamBuilder<List<Post>>(
+      stream: database.streamPosts(user),
+      builder: (context, snapshot){
+        return GestureDetector(
+          onTap: onTap,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5.0),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 3.0,
+                      offset: Offset(0.0, 2.0),
+                      color: Color.fromARGB(80, 0, 0, 0))
+                ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(post.title, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16.0),),
+                Text(post.body, maxLines: 2, overflow: TextOverflow.ellipsis)
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
