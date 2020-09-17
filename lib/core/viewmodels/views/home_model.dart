@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:mtp_live/core/models/post.dart';
-import 'package:mtp_live/core/models/user.dart' as current;
+import 'package:mtp_live/core/models/user.dart';
 import 'package:mtp_live/core/services/auth_services.dart';
 import 'package:mtp_live/core/services/database.dart';
-import 'package:mtp_live/core/viewmodels/base_model.dart';
+
+import 'file:///C:/Users/isgod/StudioProjects/mtp_live/lib/core/viewmodels/views/base_model.dart';
 
 class HomeModel extends BaseModel {
   final AuthService _authService;
@@ -16,22 +16,22 @@ class HomeModel extends BaseModel {
   })  : _authService = authService,
         _databaseService = databaseService;
 
-  List<current.User> userStore;
-  auth.User users;
-  Stream<List<Post>> posts;
+  List<User> userStore;
+  User users;
+  Stream<List<Post>> _posts;
 
   Future getUser(String uid) async {
     setState(true);
     users = await _authService.currentUser;
     // TODO: rectifier ce char à bia !!
     userStore =
-        (await _databaseService.getUserOnFirebase(uid)) as List<current.User>;
+        (await _databaseService.getUserOnFirebase(uid)) as List<User>;
     if (users != null) {}
   }
 
-  Future getPosts(auth.User userId) async {
+  Future getPosts() async {
     setState(true);
-    posts = _databaseService.streamPosts(userId);
+    _posts = _databaseService.streamPosts(users) ;
     setState(false);
   }
 }

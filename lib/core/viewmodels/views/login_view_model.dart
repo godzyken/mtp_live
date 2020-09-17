@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:mtp_live/core/services/auth_services.dart';
 import 'package:mtp_live/core/services/dialog_service.dart';
 import 'package:mtp_live/core/services/navigation_service.dart';
-import 'package:mtp_live/core/viewmodels/base_model.dart';
+
+import 'file:///C:/Users/isgod/StudioProjects/mtp_live/lib/core/viewmodels/views/base_model.dart';
 
 class LoginViewModel extends BaseModel {
   final AuthService _authenticationService;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mtp_live/core/models/post.dart';
 import 'package:mtp_live/core/models/user.dart' as current;
 import 'package:mtp_live/core/services/database.dart';
-import 'package:mtp_live/core/viewmodels/home_model.dart';
+import 'package:mtp_live/core/viewmodels/views/home_model.dart';
 import 'package:mtp_live/ui/pages/base_page.dart';
 import 'package:mtp_live/ui/shared/app_colors.dart';
 import 'package:mtp_live/ui/widgets/postlist_item.dart';
@@ -15,9 +15,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<User>(context);
-    bool loggedIn = user != null;
-
     return BasePage<HomeModel>(
       model: HomeModel(
           authService: Provider.of(context),
@@ -31,13 +28,12 @@ class MyHomePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 50),
           child: Column(
             children: <Widget>[
-              if (loggedIn)
-                StreamProvider<List<Post>>.value(
-                  value: db.streamPosts(user),
-                  child: PostListItem(),
-                ),
+              StreamProvider<List<Post>>.value(
+                value: db.streamPosts(model.users),
+                child: PostListItem(),
+              ),
               StreamBuilder<current.User>(
-                stream: db.streamUser(user.uid),
+                stream: db.streamUser(model.users.uid),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong happen');

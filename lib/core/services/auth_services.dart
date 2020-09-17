@@ -13,7 +13,7 @@ abstract class AuthBase {
 
   Future<String> createUserWithEmailAndPassword(String email, String password);
 
-  Future<auth.User> login(String email, String password);
+  Future<auth.User> login({String email, String password});
 
   Future<String> signInWithEmailAndPassword(String email, String password);
 
@@ -59,6 +59,7 @@ class Auth implements AuthBase {
           .createUserWithEmailAndPassword(email: email, password: password);
       print('Users: $userCredential');
       auth.User user = userCredential.user;
+
       return user.uid;
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
@@ -70,7 +71,7 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<auth.User> login(String email, String password) async {
+  Future<auth.User> login({String email, String password}) async {
     try {
       var userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -160,6 +161,8 @@ class AuthService {
   static Auth _auth;
   final Api _api;
   var currentUser;
+  user.User get _currentUser => currentUser;
+
 
   AuthService({Api api}) : _api = api;
 
@@ -188,12 +191,13 @@ class AuthService {
   Future signUpWithEmail({
     @required String email,
     @required String password,
+    @required String displayName,
+    @required String role,
   }) async {
     try {
       var authResult = await _auth.createUserWithEmailAndPassword(
         email, password
       );
-      ;
       return authResult != null;
     } catch (e) {
       return e.message;
@@ -209,7 +213,7 @@ class AuthService {
   }) async {
     await _auth
         .createUserWithEmailAndPassword(email, password)
-        .then((value) => _auth.login(email, password));
+        .then((value) => _auth.login(email: email, password: password));
   }
 
   Future createUserAnonymous() async {
@@ -220,7 +224,7 @@ class AuthService {
   Future loginUser({String email, String password}) async {
     if (password != null) {
       this.currentUser = {'email', email};
-      await _auth.login(email, password);
+      await _auth.login();
       return Future.value(currentUser);
     } else {
       this.currentUser = null;

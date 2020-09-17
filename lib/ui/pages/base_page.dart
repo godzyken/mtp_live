@@ -1,15 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 class BasePage<T extends ChangeNotifier> extends StatefulWidget {
-
-  final Widget Function(
-      BuildContext context,
-      T model,
-      Widget child
-      ) builder;
+  final Widget Function(BuildContext context, T model, Widget child) builder;
   final T model;
   final Widget child;
   final Function(T) onModelReady;
@@ -42,11 +35,11 @@ class _BasePageState<T extends ChangeNotifier> extends State<BasePage<T>> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(
-        create: (context) => model,
-        child: Consumer<T>(
-            builder: widget.builder,
-          child: widget.child,
-        ),
+      create: (context) => model,
+      child: Consumer<T>(
+        builder: widget.builder,
+        child: widget.child,
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mtp_live/core/models/post.dart';
+import 'package:mtp_live/core/models/user.dart';
 import 'package:mtp_live/core/services/database.dart';
 import 'package:provider/provider.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mtp_live/core/models/comment.dart';
 import 'package:mtp_live/core/services/api.dart';
 
-import '../base_model.dart';
+import '../views/base_model.dart';
 
 class CommentsModel extends BaseModel {
   Api _api;

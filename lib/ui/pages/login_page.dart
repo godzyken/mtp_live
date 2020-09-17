@@ -50,27 +50,44 @@ class _LoginPageState extends State<LoginPage> {
                   controller: passwordController,
                 ),
                 UIHelper.verticalSpaceMedium,
-                Wrap(
-                  children: [
-                    BusyButton(
-                      title: 'Login',
-                      busy: model.state,
-                      onPressed: () async {
-                        var loginSuccess = model.login;
-                        if (loginSuccess != null) {
-                          Navigator.pushNamed(context, 'home');
-                        }
-                      },
-                    ),
+                Expanded(
+                  child: Wrap(
+                    spacing: 8.0,
+                    runSpacing: 4.0,
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      BusyButton(
+                        title: 'Login',
+                        busy: model.state,
+                        onPressed: () async {
+                          var loginSuccess = model.login;
+                          if (loginSuccess != null) {
+                            Navigator.pushNamed(context, 'home');
+                          }
+                        },
+                      ),
 
-                    googleLoginButton(),
-                  ],
+                      BusyButton(
+                        title: 'Visit',
+                        busy: model.state,
+                        onPressed: () async {
+                          var loginSuccess = model.ghostMode;
+                          if (loginSuccess != null) {
+                            Navigator.pushNamed(context, 'home');
+                          }
+                        },
+                      ),
+
+                      googleLoginButton(),
+                    ],
+                  ),
                 ),
                 UIHelper.verticalSpaceMedium,
                 TextLink(
                   'Create an Account if you\'re new.',
                   onPressed: () async {
-                    var currentUserA = model.ghostMode;
+                    var currentUserA = model.createUserWithCredential;
                     if (currentUserA != null) {
                       Navigator.pushNamed(context, 'home');
                     }
