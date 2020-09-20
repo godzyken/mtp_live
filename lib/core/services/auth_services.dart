@@ -163,8 +163,8 @@ class AuthService {
   var currentUser;
   user.User get _currentUser => currentUser;
 
-
   AuthService({Api api}) : _api = api;
+
 
   user.User _userFromFirebase(auth.User user) {
     return user == null ? null : currentUser(uid: user.uid);
@@ -179,7 +179,9 @@ class AuthService {
     try {
       var userCredential = await _auth.signInWithEmailAndPassword(
           email, password);
-      return userCredential != null;
+      var hasUser =  userCredential != null;
+
+      return hasUser;
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
       return e.message;

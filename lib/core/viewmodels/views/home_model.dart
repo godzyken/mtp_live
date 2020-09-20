@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mtp_live/core/models/post.dart';
 import 'package:mtp_live/core/models/user.dart';
+import 'package:mtp_live/core/services/api.dart';
 import 'package:mtp_live/core/services/auth_services.dart';
 import 'package:mtp_live/core/services/database.dart';
 
@@ -16,22 +18,26 @@ class HomeModel extends BaseModel {
   })  : _authService = authService,
         _databaseService = databaseService;
 
-  List<User> userStore;
-  User users;
-  Stream<List<Post>> _posts;
+  Api _api;
 
-  Future getUser(String uid) async {
-    setState(true);
-    users = await _authService.currentUser;
-    // TODO: rectifier ce char à bia !!
-    userStore =
-        (await _databaseService.getUserOnFirebase(uid)) as List<User>;
-    if (users != null) {}
+  List<User> users;
+
+  Future<User> getUserById(String id) async {
+    var doc = await _api.getDocumentById(id);
+    return User.fromMap(doc.data(), doc.id);
   }
 
-  Future getPosts() async {
-    setState(true);
-    _posts = _databaseService.streamPosts(users) ;
-    setState(false);
+  Stream<QuerySnapshot> fetchUsersAsStream() {
+    return _api.streamDataCollection();
   }
+
+
+  List<Post> posts;
+
+  Future<Post> getPostById(String id) async {
+    var doc = await _api.getDocumentById(id);
+    return Post.fromMap(doc.data(), doc.id);
+  }
+
+
 }

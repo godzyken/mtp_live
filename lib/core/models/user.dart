@@ -8,40 +8,36 @@ class User {
   final String userRole;
   final DocumentReference reference;
 
-  User({
-    this.displayName,
-    this.email,
-    this.photoURL,
-    this.uid,
-    this.userRole,
-    this.reference});
+  User(
+      {this.displayName,
+      this.email,
+      this.photoURL,
+      this.uid,
+      this.userRole,
+      this.reference}
+      );
 
-  User.initial(this.reference)
-      : uid = '',
-        displayName = '',
-        email = '',
-        photoURL = '',
-        userRole = '';
+  User.fromMap(Map snapshot, String id)
+      : uid = id ?? '',
+        displayName = snapshot['displayName'] ?? '',
+        email = snapshot['email'] ?? '',
+        photoURL = snapshot['photoURL'] ?? '',
+        userRole = snapshot['userRole'] ?? '',
+        reference = snapshot['reference'] ?? '';
 
-  User.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['displayName'] != null),
-        assert(map['email'] != null),
-        assert(map['uid']),
-        assert(map['photoURL']),
-        assert(map['userRole']),
-        displayName = map['displayName'],
-        email = map['email'],
-        photoURL = map['photoURL'],
-        uid = map['uid'],
-        userRole = map['userRole'];
-
-  User.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(), reference: snapshot.reference);
+  toJson() {
+    return {
+      "displayName": displayName,
+      "email": email,
+      "photoURL": photoURL,
+      "userRole": userRole,
+      "reference": reference,
+    };
+  }
 
   @override
   String toString() => "User<$displayName:$email:$photoURL:$userRole:$uid>";
 }
-
 
 class Profile {
   User user;
@@ -73,8 +69,6 @@ class Profile {
         city: data['city'] ?? '',
         country: data['country'] ?? '',
         photoURL: data['photoURL'] ?? '',
-        email: data['email'] ?? ''
-    );
+        email: data['email'] ?? '');
   }
-
 }

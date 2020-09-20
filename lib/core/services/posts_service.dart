@@ -6,13 +6,14 @@ import 'api.dart';
 class PostsService {
   Api _api;
 
-  List<Post> _posts;
-  List<Post> get posts => _posts;
+  List<Post> posts;
 
-  bool get hasPosts => _posts != null && _posts.isNotEmpty;
+  Future<List<Post>> getPostsForUser() async {
+    var result = await _api.getDataCollection();
+    posts = result.docs
+    .map((doc) => Post.fromMap(doc.data(), doc.id))
+    .toList();
 
-  Future<List<Post>> getPostsForUser(int userId) async {
-    _posts = await _api.getPostsForUser(userId);
-    return _posts;
+    return posts;
   }
 }

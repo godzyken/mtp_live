@@ -1,23 +1,53 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:mtp_live/core/models/post.dart';
-import 'package:mtp_live/core/models/user.dart';
-import 'package:mtp_live/core/services/database.dart';
+import 'package:mtp_live/core/services/api.dart';
 
 import '../views/base_model.dart';
 
 class PostsModel extends BaseModel {
-  DatabaseService _db;
+  Api _api;
 
   PostsModel({
-    @required DatabaseService db,
-  }) : _db = db;
+    @required Api api,
+  }) : _api = api;
 
-  Stream<List<Post>> posts;
-  User user;
+  List<Post> posts;
 
-  Future getPosts() async {
-    setState(true);
-    posts = _db.streamPosts(user);
-    setState(false);
+  Future fetchPosts() async {
+    var result = await _api.getDataCollection();
+    posts = result.docs
+        .map((doc) => Post.fromMap(doc.data(), doc.id))
+        .toList();
+    return posts;
   }
+
+  Stream<QuerySnapshot> fetchPostsAsStream() {
+    return _api.streamDataCollection();
+  }
+
+  Future getPostById(String id) async {
+    var doc = await _api.getDocumentById(id);
+    return  Post.fromMap(doc.data(), doc.id) ;
+  }
+
+
+  Future removePost(String id) async{
+    await _api.removeDocument(id) ;
+    return ;
+  }
+  Future updatePost(Post data,String id) async{
+    await _api.updateDocument(data.toJson(), id) ;
+    return ;
+  }
+
+  Future addPost(Post data) async{
+    var result  = await _api.addDocument(data.toJson()) ;
+
+    return ;
+
+  }
+
+
+
 }

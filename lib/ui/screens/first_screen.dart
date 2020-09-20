@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mtp_live/core/services/auth_services.dart';
-import 'package:mtp_live/ui-old/auth-old/login_page.dart';
 import 'package:mtp_live/ui/pages/home_page.dart';
+import 'package:mtp_live/ui/pages/login_page.dart';
 import 'package:provider/provider.dart';
 
 
@@ -33,7 +33,7 @@ class FirstScreen extends StatelessWidget {
                     children: <Widget>[
                       CircleAvatar(
                         backgroundImage: NetworkImage(
-                          imageUrl,
+                          snapshot.data,
                         ),
                         radius: 60,
                         backgroundColor: Colors.transparent,
@@ -47,7 +47,7 @@ class FirstScreen extends StatelessWidget {
                             color: Colors.black54),
                       ),
                       Text(
-                        name,
+                        snapshot.data,
                         style: TextStyle(
                             fontSize: 25,
                             color: Colors.deepPurple,
@@ -62,7 +62,7 @@ class FirstScreen extends StatelessWidget {
                             color: Colors.black54),
                       ),
                       Text(
-                        email,
+                        snapshot.data,
                         style: TextStyle(
                             fontSize: 25,
                             color: Colors.deepPurple,

@@ -1,26 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  final int userId;
-  final int id;
+  final String userId;
+  final String id;
   final String body;
   final String title;
   final DocumentReference reference;
 
-  Post.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['userId'] != null),
-        assert(map['id'] != null),
-        assert(map['title']),
-        assert(map['body']),
-        userId = map['userId'],
-        id = map['id'],
-        body = map['body'],
-        title = map['title'];
+  Post({this.userId, this.id, this.body, this.title, this.reference});
 
-  Post.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(), reference: snapshot.reference);
+  Post.fromMap(Map snapshot, String id)
+      : id = id ?? '',
+        userId = snapshot['userId'] ?? '',
+        body = snapshot['body'] ?? '',
+        title = snapshot['title'] ?? 'Espadon padon',
+        reference = snapshot['reference'] ?? '';
+
+  toJson() {
+    return {
+      "body": body,
+      "title": title,
+      "reference": reference,
+      "userId": userId,
+    };
+  }
 
   @override
   String toString() => "Post<$userId:$id:$body:$title>";
-
 }

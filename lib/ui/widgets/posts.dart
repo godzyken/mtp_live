@@ -5,20 +5,21 @@ import 'package:mtp_live/ui/pages/base_page.dart';
 import 'package:mtp_live/ui/widgets/postlist_item.dart';
 import 'package:provider/provider.dart';
 
+
 class Posts extends StatelessWidget {
   const Posts({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BasePage<PostsModel>(
-        model: PostsModel(db: Provider.of(context)),
-        onModelReady: (model) => model.getPosts,
+        model: PostsModel(api: Provider.of(context)),
+        onModelReady: (model) => model.fetchPostsAsStream(),
         builder: (context, model, child) => model.state
             ? Center(
                 child: CircularProgressIndicator(),
               )
             : ListView.builder(
-                itemCount: model.posts.hashCode,
+                itemCount: model.posts.length,
                 itemBuilder: (context, i) => PostListItem(
                   post: model.posts[i],
                   onTap: () {

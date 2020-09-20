@@ -3,4 +3,5 @@ class RoutePaths {
   static const String Login = 'login';
   static const String Home = 'home';
   static const String Post = 'post';
+  static const String PostListItem = 'posts';
 }

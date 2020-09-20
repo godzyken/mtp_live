@@ -7,7 +7,7 @@ import 'package:mtp_live/ui/shared/app_colors.dart';
 import 'package:mtp_live/ui/shared/ui_helpers.dart';
 
 class Comments extends StatelessWidget {
-  final int postId;
+  final String postId;
   Comments(this.postId);
 
   @override
