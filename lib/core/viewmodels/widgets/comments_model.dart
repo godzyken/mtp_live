@@ -13,9 +13,9 @@ class CommentsModel extends BaseModel {
 
   List<Comment> comments;
 
-  Future fetchComments(int postId) async {
+  Future fetchComments(String postId) async {
     setState(true);
-    comments = await _api.getCommentsForPost(postId);
+    comments = _api.streamDataCollection() as List<Comment>;
     setState(false);
   }
 
