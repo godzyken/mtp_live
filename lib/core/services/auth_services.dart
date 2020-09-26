@@ -21,7 +21,7 @@ abstract class AuthBase {
 
   Future<void> signInWithGoogle();
 
-  Future<void> signOutGoogle();
+  Future<void> signOut();
 }
 
 class Auth implements AuthBase {
@@ -151,7 +151,7 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<void> signOutGoogle() async {
+  Future<void> signOut() async {
     await _auth.signOut();
     await googleSignIn.signOut();
   }
@@ -235,6 +235,7 @@ class AuthService {
   }
 
   Future signInWithGoogle() async {
-    await _auth.signInWithGoogle();
+    final user = await _auth.signInWithGoogle();
+    return user;
   }
 }

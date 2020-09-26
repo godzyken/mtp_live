@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
 
-                      googleLoginButton(),
+                      GoogleLoginButton(),
                     ],
                   ),
                 ),
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () async {
                     var currentUserA = model.createUserWithCredential;
                     if (currentUserA != null) {
-                      Navigator.pushNamed(context, 'home');
+                      Navigator.pushNamed(context, 'sign');
                     }
                   },
                 )

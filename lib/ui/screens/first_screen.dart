@@ -71,7 +71,7 @@ class FirstScreen extends StatelessWidget {
                       SizedBox(height: 40),
                       RaisedButton(
                         onPressed: () {
-                          _signOutGoogle();
+                          _signOut();
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(builder: (context) {
                             return LoginPage();

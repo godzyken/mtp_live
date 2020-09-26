@@ -8,11 +8,16 @@ import 'package:provider/provider.dart';
 FirebaseAnalytics analytics;
 
 void main() async {
-  analytics = FirebaseAnalytics();
-  Crashlytics.instance.enableInDevMode = true; // turn this off after seeing reports in in the console.
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    print(e.toString());
+  }
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true); // turn this off after seeing reports in in the console.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   Provider.debugCheckInvalidValueType = null;
-  await Firebase.initializeApp();
+  analytics = FirebaseAnalytics();
   runApp(MyApp());
 }

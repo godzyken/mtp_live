@@ -124,12 +124,22 @@ flutter {
     source '../..'
 }
 
+ext.versions = [
+        "drawer" : '1.0.0',
+        "rview" : '1.0.0'
+]
+
 dependencies {
     implementation 'com.google:google:5'
     def preference_version = "1.1.1"
     def lifecycle_version = '2.3.0-alpha07'
     def arch_version = "2.1.0"
 
+    implementation "androidx.drawerlayout:drawerlayout:${versions.drawer}"
+    implementation "androidx.recyclerview:recyclerview:${versions.rview}"
+
+    // Add the Firebase Crashlytics NDK dependency.
+    implementation 'com.google.firebase:firebase-crashlytics-ndk:17.2.1'
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07"
     // LiveData
@@ -168,7 +178,7 @@ dependencies {
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
-    annotationProcessor "androidx.room:room-compiler:${rootProject.roomVersion}"
+    kapt "androidx.room:room-compiler:${rootProject.roomVersion}"
     implementation "androidx.room:room-ktx:${rootProject.roomVersion}"
     androidTestImplementation "androidx.room:room-testing:${rootProject.roomVersion}"
 
