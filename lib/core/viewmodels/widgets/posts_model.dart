@@ -41,10 +41,10 @@ class PostsModel extends BaseModel {
     return ;
   }
 
-  Future addPost(Post data) async{
+  Future addPost(data) async{
     var result  = await _api.addDocument(data.toJson()) ;
 
-    return ;
+    return result.set(data.id);
 
   }
 

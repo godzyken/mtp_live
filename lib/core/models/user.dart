@@ -8,32 +8,22 @@ class User {
   final String userRole;
   final DocumentReference reference;
 
-  User(
-      {this.displayName,
-      this.email,
-      this.photoURL,
-      this.uid,
-      this.userRole,
-      this.reference}
-      );
+  User({this.displayName,
+    this.email,
+    this.photoURL,
+    this.uid,
+    this.userRole,
+    this.reference});
 
-  User.fromMap(Map snapshot, String id)
-      : uid = id ?? '',
-        displayName = snapshot['displayName'] ?? '',
-        email = snapshot['email'] ?? '',
-        photoURL = snapshot['photoURL'] ?? '',
-        userRole = snapshot['userRole'] ?? '',
-        reference = snapshot['reference'] ?? '';
 
-  toJson() {
-    return {
-      "displayName": displayName,
-      "email": email,
-      "photoURL": photoURL,
-      "userRole": userRole,
-      "reference": reference,
-    };
-  }
+  User.fromJson(Map<String, dynamic> parsedJson)
+      : displayName = parsedJson['displayName'],
+        email = parsedJson['email'],
+        photoURL = parsedJson['photoURL'],
+        uid = parsedJson['uid'],
+        userRole = parsedJson['userRole'],
+        reference = parsedJson['reference'];
+
 
   @override
   String toString() => "User<$displayName:$email:$photoURL:$userRole:$uid>";

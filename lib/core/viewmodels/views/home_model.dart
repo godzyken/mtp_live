@@ -4,27 +4,25 @@ import 'package:mtp_live/core/models/post.dart';
 import 'package:mtp_live/core/models/user.dart';
 import 'package:mtp_live/core/services/api.dart';
 import 'package:mtp_live/core/services/auth_services.dart';
-import 'package:mtp_live/core/services/database.dart';
 
 import 'file:///C:/Users/isgod/StudioProjects/mtp_live/lib/core/viewmodels/views/base_model.dart';
 
 class HomeModel extends BaseModel {
   final AuthService _authService;
-  final DatabaseService _databaseService;
+  final  Api _api;
 
   HomeModel({
     @required AuthService authService,
-    @required DatabaseService databaseService,
+    @required Api api,
   })  : _authService = authService,
-        _databaseService = databaseService;
+        _api = api;
 
-  Api _api;
 
   List<User> users;
 
   Future<User> getUserById(String id) async {
-    var doc = await _api.getDocumentById(id);
-    return User.fromMap(doc.data(), doc.id);
+    var doc = await _authService.currentUser(id);
+    return User.fromJson(doc.data().id);
   }
 
   Stream<QuerySnapshot> fetchUsersAsStream() {

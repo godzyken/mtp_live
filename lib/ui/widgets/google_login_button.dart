@@ -14,14 +14,14 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
   Widget build(BuildContext context) {
     return OutlineButton(
       onPressed: () async {
-        setState(() {
-          _isProcessing = true;
-        });
+        _isProcessing = true;
+
         var connected = await authService.signInWithGoogle();
         if (connected != null) {
           Navigator.pushNamed(context, 'home');
         } else {
           print('Error: $connected');
+          _isProcessing = false;
         }
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(45)),

@@ -10,7 +10,7 @@ class PostListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: null,
+      initialData: post,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return GestureDetector(
@@ -30,19 +30,24 @@ class PostListItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("${post.title}", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16.0),
+                  Text(
+                    "${this.post.id}",
+                    style:
+                        TextStyle(fontWeight: FontWeight.w900, fontSize: 16.0),
                   ),
-                  Text(post.body, maxLines: 2, overflow: TextOverflow.ellipsis)
+                  Text(this.post.body, maxLines: 2, overflow: TextOverflow.ellipsis)
                 ],
               ),
             ),
           );
-
+        } else if (!snapshot.hasData) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Something went wrong happen');
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Text('Found no Data...');
         }
       },
     );
-
   }
 }

@@ -70,7 +70,7 @@ class DatabaseService {
   Future<User> getUserOnFirebase(String id) async {
     var snap = await _db.collection('users').doc('id').get();
 
-    return User.fromMap(snap.data(), id);
+    return User.fromJson(snap.data());
   }
 
   // Get stream on single doc
@@ -79,7 +79,7 @@ class DatabaseService {
         .collection('users')
         .doc(id)
         .snapshots()
-        .map((snap) => User.fromMap(snap.data(), id));
+        .map((snap) => User.fromJson(snap.data()));
   }
 
   // Query a subcollection
@@ -88,7 +88,17 @@ class DatabaseService {
 
     return ref
         .snapshots()
-        .map((list) => list.docs.map((doc) => Post.fromMap(doc.data(), doc.id)).toList());
+        .map((list) => list.docs
+        .map((doc) => Post.fromMap(doc.data(), doc.id))
+        .toList());
+  }
+
+  Stream<List<User>> getUserList() {
+    return _db.collection('user')
+        .snapshots()
+        .map((snapShot) => snapShot.docs
+        .map((doc) => User.fromJson(doc.data()))
+        .toList());
   }
 }
 

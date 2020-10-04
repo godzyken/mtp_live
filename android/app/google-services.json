@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "1087417008239",
+    "firebase_url": "https://mtplivesound.firebaseio.com",
+    "project_id": "mtplivesound",
+    "storage_bucket": "mtplivesound.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087417008239:android:a748d281ab0d91cde20d9a",
+        "android_client_info": {
+          "package_name": "com.godzy.mtp_live"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087417008239-rf7trlf1cjuoskb1j8h00hered6lrllp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.godzy.mtp_live",
+            "certificate_hash": "bf0b793d535ace76227d3537dd10260a36b004cd"
+          }
+        },
+        {
+          "client_id": "1087417008239-iv52v791hp4j3dsv4ofj0kk888q1tbbu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrlMAoTb02kAj3AU2vKjsGkbAnQ0GvzoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087417008239-iv52v791hp4j3dsv4ofj0kk888q1tbbu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1087417008239-rs2jp1rceecuudglml4fi38cikil07pn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.godzy.mtplive",
+                "app_store_id": "1087417008239"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087417008239:android:ae0e46a53903d2bfe20d9a",
+        "android_client_info": {
+          "package_name": "com.godzy.mtp_live.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087417008239-iv52v791hp4j3dsv4ofj0kk888q1tbbu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrlMAoTb02kAj3AU2vKjsGkbAnQ0GvzoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087417008239-iv52v791hp4j3dsv4ofj0kk888q1tbbu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1087417008239-rs2jp1rceecuudglml4fi38cikil07pn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.godzy.mtplive",
+                "app_store_id": "1087417008239"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

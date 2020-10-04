@@ -53,7 +53,8 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<String> createUserWithEmailAndPassword(String email, String password) async {
+  Future<String> createUserWithEmailAndPassword(
+      String email, String password) async {
     try {
       auth.UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -84,7 +85,8 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<String> signInWithEmailAndPassword(String email, String password) async {
+  Future<String> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       auth.UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
@@ -161,25 +163,32 @@ class AuthService {
   static Auth _auth;
   final Api _api;
   var currentUser;
+
   user.User get _currentUser => currentUser;
 
   AuthService({Api api}) : _api = api;
-
 
   user.User _userFromFirebase(auth.User user) {
     return user == null ? null : currentUser(uid: user.uid);
   }
 
   Stream<user.User> get onAuthStateChanged {
-    return auth.FirebaseAuth.instance.authStateChanges().map((event) => _userFromFirebase(event));
+    _api.streamDataCollection().listen((event) {
+      onAuthStateChanged.forEach((element) {
+        _currentUser;
+      });
+    });
+    return auth.FirebaseAuth.instance
+        .authStateChanges()
+        .map((event) => _userFromFirebase(event));
   }
 
   Future loginWithEmail(
       {@required String email, @required String password}) async {
     try {
-      var userCredential = await _auth.signInWithEmailAndPassword(
-          email, password);
-      var hasUser =  userCredential != null;
+      var userCredential =
+          await _auth.signInWithEmailAndPassword(email, password);
+      var hasUser = userCredential != null;
 
       return hasUser;
     } on auth.FirebaseAuthException catch (e) {
@@ -197,9 +206,8 @@ class AuthService {
     @required String role,
   }) async {
     try {
-      var authResult = await _auth.createUserWithEmailAndPassword(
-        email, password
-      );
+      var authResult =
+          await _auth.createUserWithEmailAndPassword(email, password);
       return authResult != null;
     } catch (e) {
       return e.message;

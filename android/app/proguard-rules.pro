@@ -1,0 +1,4 @@
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes *Annotation*

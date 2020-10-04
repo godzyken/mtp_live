@@ -12,47 +12,94 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return BasePage<HomeModel>(
-      builder: (context, model, child) => Scaffold(
-        appBar: AppBar(
-          title: Text('MTP live App'),
+      builder: (context, model, child) => new Scaffold(
+        extendBody: true,
+        appBar: new AppBar(
+          title: new Text('MTP live App'),
         ),
         backgroundColor: backgroundColor,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: Wrap(
-            children: <Widget>[
-              StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return PostListItem();
-                  } else {
-                    return Text('fetching');
-                  }
-                },
+        body: Container(
+          child: Column(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 200.0,
+                        child: StreamBuilder<User>(
+                          stream: FirebaseAuth.instance.authStateChanges(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<User> asyncSnapshot) {
+                            if (asyncSnapshot.hasError) {
+                              return Text('Something went wrong happen');
+                            }
+
+                            if (!asyncSnapshot.hasData) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+
+                            if (asyncSnapshot.connectionState ==
+                                ConnectionState.active) {
+                              var data = asyncSnapshot.data;
+                              print("Watt is in: ${data.uid}");
+                              return Text("Full Name: ${data.displayName}");
+                            }
+                            return Text('loading...');
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              StreamBuilder<User>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (BuildContext context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Something went wrong happen');
-                  }
-
-                  if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.active) {
-                    var data = snapshot.data;
-                    print("Watt is in: ${data.uid}");
-                    return Text("Full Name: ${data.displayName}");
-                  }
-                  return Text('loading...');
-                },
+              Flexible(
+                flex: 6,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 200.0,
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('users')
+                              .doc('userId')
+                              .collection('posts')
+                              .orderBy('create_at')
+                              .snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.active) {
+                              return ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  physics: ScrollPhysics(),
+                                  itemCount: snapshot.data.docs.length,
+                                  itemBuilder: (context, index) => PostListItem());
+                            } else if (snapshot.hasError) {
+                              return Text('Snapshot has Error: ${snapshot.error}');
+                            } else {
+                              return Text('Fetching...');
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
