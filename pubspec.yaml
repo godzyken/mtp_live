@@ -29,8 +29,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
 
-  cloud_firestore: ^0.14.1+2
   firebase_core: ^0.5.0
+  cloud_firestore: ^0.14.1+2
   firebase_analytics: ^6.0.1
   firebase_crashlytics: ^0.2.1
   google_sign_in: ^4.5.4
@@ -48,8 +48,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
   firebase_auth_platform_interface: ^2.1.0
   firebase_auth_web: ^0.3.1
-  firebase_core_platform_interface: ^2.0.0
-  firebase_core_web: ^0.2.0
+
 
 transitive dependencies:
   flutter_test:

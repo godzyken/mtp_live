@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" group="android" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="android/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-700169067/cloud_firestore.iml" filepath="$PROJECT_DIR$/.idea/modules/-700169067/cloud_firestore.iml" group="android/cloud_firestore" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1787343766/cloud_firestore.iml" filepath="$PROJECT_DIR$/.idea/modules/1787343766/cloud_firestore.iml" group="android/cloud_firestore" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-479694949/firebase_analytics.iml" filepath="$PROJECT_DIR$/.idea/modules/-479694949/firebase_analytics.iml" group="android/firebase_analytics" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1560052166/firebase_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/-1560052166/firebase_auth.iml" group="android/firebase_auth" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1088571068/firebase_core.iml" filepath="$PROJECT_DIR$/.idea/modules/-1088571068/firebase_core.iml" group="android/firebase_core" />
